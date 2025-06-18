@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px #fff;
+        }
+        .choices {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .choice-btn {
+            background: #fff;
+            border: 3px solid #ff8c42;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .choice-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 32px rgba(255,140,66,0.2);
+            border-color: #ff5e62;
+        }
+        .choice-icon {
+            font-size: 5rem;
+            color: #ff5e62;
+            transition: color 0.2s;
+        }
+        .choice-btn:hover .choice-icon {
+            color: #ff8c42;
+        }
+        .result {
+            background: #fffbe7;
+            border: 2px solid #ff8c42;
+            border-radius: 1rem;
+            padding: 2rem 3rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            text-align: center;
+        }
+        .result h2 {
+            color: #ff5e62;
+            margin-bottom: 1rem;
+        }
+        .result p {
+            color: #333;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="choices">
+            {% for choice in choices %}
+                <button class="choice-btn" type="submit" name="choice" value="{{ choice }}">
+                    {% if choice == 'rock' %}
+                        <i class="fas fa-hand-fist choice-icon"></i>
+                    {% elif choice == 'paper' %}
+                        <i class="fas fa-hand-paper choice-icon"></i>
+                    {% elif choice == 'scissors' %}
+                        <i class="fas fa-hand-scissors choice-icon"></i>
+                    {% endif %}
+                </button>
+            {% endfor %}
+        </div>
+    </form>
+    {% if result %}
+        <div class="result">
+            <h2>Result: {{ result }}</h2>
+            <p>You chose: <b>{{ user_choice|title }}</b></p>
+            <p>Computer chose: <b>{{ computer_choice|title }}</b></p>
+        </div>
+    {% endif %}
+</body>
+</html> 
