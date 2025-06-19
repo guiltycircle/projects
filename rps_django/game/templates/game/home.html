@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rock Paper Scissors - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 8px #fff;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .menu a {
+            background: #42a5f5;
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(66,165,245,0.15);
+            transition: background 0.2s, transform 0.2s;
+            text-align: center;
+        }
+        .menu a:hover {
+            background: #ff5e62;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors</h1>
+    <div class="menu">
+        <a href="{% url 'create_game' %}"><i class="fas fa-plus-circle"></i> Create Game</a>
+        <a href="{% url 'join_game' %}"><i class="fas fa-sign-in-alt"></i> Join Game</a>
+        <a href="{% url 'play' %}"><i class="fas fa-user"></i> Single Player</a>
+    </div>
+</body>
+</html> 

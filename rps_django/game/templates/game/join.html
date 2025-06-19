@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Join Game - Rock Paper Scissors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .join-box {
+            background: #fffbe7;
+            border: 2px solid #ff8c42;
+            border-radius: 1rem;
+            padding: 2rem 3rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+            width: 200px;
+        }
+        button {
+            background: #42a5f5;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ff5e62;
+        }
+        .error {
+            color: #ff5e62;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" style="position:fixed; top:2rem; left:2rem; background:#42a5f5;color:#fff;padding:0.5rem 1.5rem;border-radius:0.5rem;font-size:1rem;font-weight:bold;text-decoration:none;z-index:1000;box-shadow:0 2px 8px rgba(66,165,245,0.15);"><i class="fas fa-home"></i> Home</a>
+    <div class="join-box">
+        <h2>Join a Game</h2>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="code" placeholder="Game Code" maxlength="8" required />
+            <br>
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> Join</button>
+        </form>
+    </div>
+</body>
+</html> 

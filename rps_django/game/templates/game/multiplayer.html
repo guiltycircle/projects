@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiplayer Game - Rock Paper Scissors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .game-box {
+            background: #fffbe7;
+            border: 2px solid #ff8c42;
+            border-radius: 1rem;
+            padding: 2rem 3rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .code {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #42a5f5;
+            margin-bottom: 1rem;
+        }
+        .score {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .choices {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        .choice-btn {
+            background: #fff;
+            border: 3px solid #ff8c42;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .choice-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 32px rgba(255,140,66,0.2);
+            border-color: #ff5e62;
+        }
+        .choice-icon {
+            font-size: 5rem;
+            color: #ff5e62;
+            transition: color 0.2s;
+        }
+        .choice-btn:hover .choice-icon {
+            color: #ff8c42;
+        }
+        .result {
+            background: #fffbe7;
+            border: 2px solid #ff8c42;
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .player-select {
+            margin-bottom: 1.5rem;
+        }
+        .player-select a {
+            background: #42a5f5;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0 1rem;
+            box-shadow: 0 2px 8px rgba(66,165,245,0.15);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .player-select a:hover {
+            background: #ff5e62;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" style="position:fixed; top:2rem; left:2rem; background:#42a5f5;color:#fff;padding:0.5rem 1.5rem;border-radius:0.5rem;font-size:1rem;font-weight:bold;text-decoration:none;z-index:1000;box-shadow:0 2px 8px rgba(66,165,245,0.15);"><i class="fas fa-home"></i> Home</a>
+    <div class="game-box">
+        {% if show_code %}
+        <div class="code">Game Code: <span>{{ code }}</span></div>
+        {% endif %}
+        <div class="score">
+            Player 1 Score: <b>{{ game.player1_score }}</b> &nbsp;|&nbsp; Player 2 Score: <b>{{ game.player2_score }}</b>
+        </div>
+        {% if not player %}
+            <div class="player-select">
+                <a href="?player=1">Join as Player 1</a>
+                <a href="?player=2">Join as Player 2</a>
+            </div>
+        {% else %}
+            <div style="margin-bottom:1rem; font-weight:bold;">You are Player {{ player }}</div>
+            {% if not game.player1_choice or not game.player2_choice %}
+                {% if player == '1' and not game.player1_choice or player == '2' and not game.player2_choice %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="choices">
+                            {% for choice in choices %}
+                                <button class="choice-btn" type="submit" name="choice" value="{{ choice }}">
+                                    {% if choice == 'rock' %}
+                                        <i class="fas fa-hand-fist choice-icon"></i>
+                                    {% elif choice == 'paper' %}
+                                        <i class="fas fa-hand-paper choice-icon"></i>
+                                    {% elif choice == 'scissors' %}
+                                        <i class="fas fa-hand-scissors choice-icon"></i>
+                                    {% endif %}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </form>
+                    <div style="margin-top:1rem;">Make your choice!</div>
+                {% else %}
+                    <div style="margin-top:1rem;">Waiting for the other player...</div>
+                {% endif %}
+            {% endif %}
+            {% if result %}
+                <div class="result">
+                    {% if result == 'Player 1 wins!' %}
+                        {{ result }} 🎉
+                    {% elif result == 'Player 2 wins!' %}
+                        {{ result }} 🎉
+                    {% elif result == 'Draw!' %}
+                        {{ result }} 🤝
+                    {% else %}
+                        {{ result }}
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html> 

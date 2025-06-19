@@ -84,6 +84,7 @@
     </style>
 </head>
 <body>
+    <a href="/" style="position:fixed; top:2rem; left:2rem; background:#42a5f5;color:#fff;padding:0.5rem 1.5rem;border-radius:0.5rem;font-size:1rem;font-weight:bold;text-decoration:none;z-index:1000;box-shadow:0 2px 8px rgba(66,165,245,0.15);"><i class="fas fa-home"></i> Home</a>
     <h1>Rock Paper Scissors</h1>
     <div style="display: flex; gap: 3rem; margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: bold; color: #333;">
         <span>Your Score: {{ user_score }}</span>
@@ -112,7 +113,17 @@
     </form>
     {% if result %}
         <div class="result">
-            <h2>Result: {{ result }}</h2>
+            <h2>Result: 
+                {% if result == 'You win!' %}
+                    {{ result }} 🎉
+                {% elif result == 'Computer wins!' %}
+                    {{ result }} 😢
+                {% elif result == 'Draw!' %}
+                    {{ result }} 🤝
+                {% else %}
+                    {{ result }}
+                {% endif %}
+            </h2>
             <p>You chose: <b>{{ user_choice|title }}</b></p>
             <p>Computer chose: <b>{{ computer_choice|title }}</b></p>
         </div>
