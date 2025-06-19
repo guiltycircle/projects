@@ -10,10 +10,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
     services:
-      sqlite:
-        image: nouchka/sqlite3
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: rps_db
+          POSTGRES_USER: rps_user
+          POSTGRES_PASSWORD: rps_pass
         ports:
-          - 3306:3306
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U rps_user -d rps_db" --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      DB_NAME: rps_db
+      DB_USER: rps_user
+      DB_PASSWORD: rps_pass
+      DB_HOST: localhost
+      DB_PORT: 5432
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -24,7 +36,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U rps_user; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+      - name: Run migrations
+        run: |
+          python manage.py migrate
+        working-directory: rps_django
       - name: Run tests
         run: |
-          cd rps_django
-          python manage.py test game 
+          python manage.py test game
+        working-directory: rps_django 

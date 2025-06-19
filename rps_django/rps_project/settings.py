@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'rps_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'rps_db'),
+        'USER': os.environ.get('DB_USER', 'rps_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'rps_pass'),
+        'HOST': os.environ.get('DB_HOST', 'db'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -129,3 +133,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = [
     'https://rps.vii.ke',
 ]
+
+# Optionally import local_settings.py for local overrides (ignored in production/CI)
+try:
+    from .local_settings import *
+except ImportError:
+    pass
